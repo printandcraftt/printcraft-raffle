@@ -4,153 +4,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Print & Craft Raffle Promo</title>
+<title>Print & Craft Raffle</title>
 
 <link rel="stylesheet" href="style.css">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<header class="hero">
+<section class="hero">
 
-<div class="overlay"></div>
-
-<div class="hero-content">
+<div class="badge">🎉 RAFFLE PROMO</div>
 
 <h1>PRINT & CRAFT</h1>
 
-<p class="tagline">
-Every order gives you a chance to win!
+<p class="subtitle">
+Every order gives you one raffle entry.
 </p>
 
-<div class="prizes">
+<div class="prize-container">
 
-<div class="prize-card">
-<div class="icon">🏆</div>
-<h2>Grand Winner</h2>
-<p>20 Polaroid Prints</p>
+<div class="prize grand">
+🏆 Grand Winner
+<span>20 Polaroid Prints</span>
 </div>
 
-<div class="prize-card">
-<div class="icon">🎉</div>
-<h2>2 Winners</h2>
-<p>10 Polaroid Prints Each</p>
+<div class="prize">
+🎁 Winner
+<span>10 Polaroid Prints</span>
+</div>
+
+<div class="prize">
+🎁 Winner
+<span>10 Polaroid Prints</span>
 </div>
 
 </div>
 
-</div>
+<a href="#entry" class="join-btn">
+ENTER NOW
+</a>
 
-</header>
+</section>
 
-<section class="countdown-section">
+<section class="how">
 
-<h2>Raffle Draw Countdown</h2>
+<h2>How To Join</h2>
 
-<div class="countdown">
-
-<div class="time-box">
-<span id="days">0</span>
-<p>Days</p>
-</div>
-
-<div class="time-box">
-<span id="hours">0</span>
-<p>Hours</p>
-</div>
-
-<div class="time-box">
-<span id="minutes">0</span>
-<p>Minutes</p>
-</div>
-
-<div class="time-box">
-<span id="seconds">0</span>
-<p>Seconds</p>
-</div>
-
+<div class="steps">
+<div>1️⃣ Buy any product</div>
+<div>2️⃣ Receive coupon code</div>
+<div>3️⃣ Submit your entry</div>
 </div>
 
 </section>
 
-<section class="entry-section">
+<section class="countdown">
 
-<div class="form-card">
+<h2>Raffle Draw</h2>
 
-<h2>🎟 Enter Your Coupon</h2>
+<div id="timer">
+00D : 00H : 00M : 00S
+</div>
 
-<input type="text" id="name" placeholder="Full Name">
+</section>
 
-<input type="text" id="contact" placeholder="Contact Number">
+<section id="entry" class="entry">
 
-<input type="text" id="coupon" placeholder="Coupon Code">
+<h2>Enter Your Coupon</h2>
 
-<button onclick="submitEntry()">
+<input type="text" placeholder="Full Name">
+<input type="text" placeholder="Contact Number">
+<input type="text" placeholder="Coupon Code">
+
+<button>
 Submit Entry
 </button>
-
-<p id="message"></p>
-
-</div>
 
 </section>
 
 <footer>
-
-<p>© 2026 Print & Craft</p>
-
+Print & Craft © 2026
 </footer>
 
 <script>
-
-const drawDate =
-new Date("December 31, 2026 18:00:00").getTime();
+const drawDate = new Date("December 31, 2026 18:00:00").getTime();
 
 setInterval(() => {
 
 const now = new Date().getTime();
+const gap = drawDate - now;
 
-const distance = drawDate - now;
+const d = Math.floor(gap/(1000*60*60*24));
+const h = Math.floor((gap%(1000*60*60*24))/(1000*60*60));
+const m = Math.floor((gap%(1000*60*60))/(1000*60));
+const s = Math.floor((gap%(1000*60))/1000);
 
-document.getElementById("days").innerHTML =
-Math.floor(distance / (1000*60*60*24));
-
-document.getElementById("hours").innerHTML =
-Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-
-document.getElementById("minutes").innerHTML =
-Math.floor((distance%(1000*60*60))/(1000*60));
-
-document.getElementById("seconds").innerHTML =
-Math.floor((distance%(1000*60))/1000);
+document.getElementById("timer").innerHTML =
+`${d}D : ${h}H : ${m}M : ${s}S`;
 
 },1000);
-
-function submitEntry(){
-
-const name =
-document.getElementById("name").value;
-
-const contact =
-document.getElementById("contact").value;
-
-const coupon =
-document.getElementById("coupon").value;
-
-if(!name || !contact || !coupon){
-
-document.getElementById("message").innerHTML =
-"❌ Please fill in all fields.";
-
-return;
-}
-
-document.getElementById("message").innerHTML =
-"✅ Entry Submitted Successfully!";
-}
-
 </script>
 
 </body>
