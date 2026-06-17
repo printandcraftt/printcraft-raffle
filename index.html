@@ -122,6 +122,7 @@ document.getElementById("timer").innerHTML =
 
 /* SUBMIT ENTRY */
 
+```javascript
 function submitEntry(){
 
 const name = document.getElementById("name").value.trim();
@@ -137,7 +138,22 @@ return;
 
 }
 
-message.innerHTML = "✅ Entry submitted!";
+message.innerHTML = "⏳ Saving entry...";
+
+const url =
+"https://script.google.com/macros/s/AKfycbxuJJmGFXMlqmg2mT9TMRgXcYxgvSxXpFZmxe-05kK5ooEaTSKaqojiPUf1GeLmS_G6ZQ/exec"
++ "?name=" + encodeURIComponent(name)
++ "&contact=" + encodeURIComponent(contact)
++ "&coupon=" + encodeURIComponent(coupon);
+
+const iframe = document.createElement("iframe");
+
+iframe.style.display = "none";
+iframe.src = url;
+
+document.body.appendChild(iframe);
+
+message.innerHTML = "✅ Entry submitted successfully!";
 
 document.getElementById("name").value = "";
 document.getElementById("contact").value = "";
