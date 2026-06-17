@@ -7,6 +7,7 @@
 <title>Print & Craft Raffle</title>
 
 <link rel="stylesheet" href="style.css">
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -52,15 +53,15 @@ ENTER NOW
 
 <div class="steps">
 <div>1️⃣ Buy any product</div>
-<div>2️⃣ Receive coupon code</div>
-<div>3️⃣ Submit your entry</div>
+<div>2️⃣ Receive a coupon code</div>
+<div>3️⃣ Submit your coupon below</div>
 </div>
 
 </section>
 
 <section class="countdown">
 
-<h2>Raffle Draw</h2>
+<h2>⏳ Raffle Draw</h2>
 
 <div id="timer">
 00D : 00H : 00M : 00S
@@ -70,15 +71,28 @@ ENTER NOW
 
 <section id="entry" class="entry">
 
-<h2>Enter Your Coupon</h2>
+<h2>🎟 Enter Your Coupon</h2>
 
-<input type="text" placeholder="Full Name">
-<input type="text" placeholder="Contact Number">
-<input type="text" placeholder="Coupon Code">
+<input
+type="text"
+id="name"
+placeholder="Full Name">
 
-<button>
+<input
+type="text"
+id="contact"
+placeholder="Contact Number">
+
+<input
+type="text"
+id="coupon"
+placeholder="Coupon Code">
+
+<button onclick="submitEntry()">
 Submit Entry
 </button>
+
+<p id="message"></p>
 
 </section>
 
@@ -87,22 +101,109 @@ Print & Craft © 2026
 </footer>
 
 <script>
-const drawDate = new Date("December 31, 2026 18:00:00").getTime();
+
+/* COUNTDOWN */
+
+const drawDate =
+new Date("December 31, 2026 18:00:00").getTime();
 
 setInterval(() => {
 
 const now = new Date().getTime();
 const gap = drawDate - now;
 
-const d = Math.floor(gap/(1000*60*60*24));
-const h = Math.floor((gap%(1000*60*60*24))/(1000*60*60));
-const m = Math.floor((gap%(1000*60*60))/(1000*60));
-const s = Math.floor((gap%(1000*60))/1000);
+const d =
+Math.floor(gap/(1000*60*60*24));
+
+const h =
+Math.floor((gap%(1000*60*60*24))/(1000*60*60));
+
+const m =
+Math.floor((gap%(1000*60*60))/(1000*60));
+
+const s =
+Math.floor((gap%(1000*60))/1000);
 
 document.getElementById("timer").innerHTML =
 `${d}D : ${h}H : ${m}M : ${s}S`;
 
 },1000);
+
+/* SUBMIT ENTRY */
+
+async function submitEntry(){
+
+const name =
+document.getElementById("name").value.trim();
+
+const contact =
+document.getElementById("contact").value.trim();
+
+const coupon =
+document.getElementById("coupon").value.trim();
+
+const message =
+document.getElementById("message");
+
+if(!name || !contact || !coupon){
+
+message.innerHTML =
+"❌ Please complete all fields.";
+
+return;
+
+}
+
+message.innerHTML =
+"⏳ Submitting...";
+
+try{
+
+const response = await fetch(
+"https://script.google.com/macros/s/AKfycbxuJJmGFXMlqmg2mT9TMRgXcYxgvSxXpFZmxe-05kK5ooEaTSKaqojiPUf1GeLmS_G6ZQ/exec",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+name:name,
+contact:contact,
+coupon:coupon
+})
+}
+);
+
+const result =
+await response.json();
+
+if(result.success){
+
+message.innerHTML =
+"✅ Entry submitted successfully!";
+
+document.getElementById("name").value = "";
+document.getElementById("contact").value = "";
+document.getElementById("coupon").value = "";
+
+}else{
+
+message.innerHTML =
+"❌ " + result.message;
+
+}
+
+}catch(error){
+
+console.error(error);
+
+message.innerHTML =
+"❌ Unable to connect to Google Sheets.";
+
+}
+
+}
+
 </script>
 
 </body>
